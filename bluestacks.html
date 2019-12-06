@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Campaigns</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link href="css/datepicker.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap-datepicker.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<div class="container"> 
+				<img src="img/Blue-Stacks.png" alt="logo">
+			</div>
+		</header>
+		<div class="blue-manage-text container">Manage Campaigns</div>
+		<div id="alert-messages"></div>
+		<div  id="datepicker-cont" style="display: none;">
+			<div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+				<input id="dateValueId" class="form-control" style="display: none;" type="text" readonly />
+				<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				<button onclick="saveEvent();">SAVE</button>
+			</div>
+		</div>
+		<div class="container">
+			<div class="top-section top-section-header">
+				<div onclick="getEventList('1');">upcoming Campaigns</div>
+				<div onclick="getEventList('2');">live Campaigns</div>
+				<div onclick="getEventList('3');">past Campaigns</div>
+			</div>
+			<div class="table past" style="display: none;">
+				<div class="table-header">
+					<div scope="col">DATE</div>
+					<div scope="col">CAMPAIGN</div>
+					<div scope="col">VIEW</div>
+					<div scope="col">ACTION</div>
+				</div>
+				<div class="data"></div>
+			</div>
+			<div class="table live" style="display: none;">
+				<div class="table-header">
+					<div scope="col">DATE</div>
+					<div scope="col">CAMPAIGN</div>
+					<div scope="col">VIEW</div>
+					<div scope="col">ACTION</div>
+				</div>
+				<div class="data"></div>
+			</div>
+			<div class="table upcoming" style="display: none;">
+				<div class="table-header">
+					<div scope="col">DATE</div>
+					<div scope="col">CAMPAIGN</div>
+					<div scope="col">VIEW</div>
+					<div scope="col">ACTION</div>
+				</div>
+				<div class="data"></div>
+			</div>
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							<div id="main-heading">
+								<div id="image-div">
+									<img class="image-pic" src="img/1.png">
+								</div>
+								<div id="game-main-heading">
+									<span class="game-heading"></span>
+									<span class="country-heading"></span>
+								</div>
+							</div>
+							<div class="price-parent">
+								<span class="price-parent-text">Pricing</span>
+								<ul class="price-ul">
+									<li>
+										<span class="price-ul-week">1 Week - 1 Month</span>
+										<span class="price-ul-prc">$ 100</span>
+									</li>
+									<li>
+										<span class="price-ul-week">6 Month</span>
+										<span class="price-ul-prc">$ 600</span>
+									</li>
+									<li>
+										<span class="price-ul-week">1 Year</span>
+										<span class="price-ul-prc">$ 900</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		var globalUpdateIndex = 0;
+		const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+		function displayMyDateForm(date){  
+			if(date.getDate()<10) { 
+				return monthArray[date.getMonth()] + " " + date.getFullYear() +", 0"+date.getDate(); 
+			} 
+			else { 
+				return monthArray[date.getMonth()] + " " + date.getFullYear() +", "+date.getDate(); 
+			} 
+		}
+		$(document).ready(function(){
+			getEventList("1");
+			getDateDisplay();
+		});
+		$(function () {
+			$("#datepicker").datepicker({ 
+				autoclose: true, 
+				todayHighlight: true,
+				startDate: new Date(),
+				onSelect: function(d,i){
+					if(d !== i.lastVal){
+						$(this).change();
+					}
+				}
+			}).datepicker('update', new Date());
+		});
+		function viewPricing(index){
+			let priceObj = obj.data[index];
+			let _html = `<div id="image-div"><img class="image-pic" src="${priceObj.image_url}">
+          	</div>
+          	<div id="game-main-heading">
+          		<span class="game-heading">
+          			${priceObj.name}
+          		</span>
+          		<span class="country-heading">
+          			${priceObj.region}
+          		</span>
+          	</div>`;
+          	$("#main-heading").html(_html);
+          	$("#myModal").modal('show');
+		}
+		function saveEvent(date){
+			var valueDate = date,
+			valueInDate = new Date(valueDate),
+			todayDate = new Date();
+			todayDate.setHours(0);
+			todayDate.setMinutes(0);
+			todayDate.setSeconds(0);
+			if(valueInDate.getTime()>todayDate.getTime()){
+				console.log(valueInDate);
+				$("#datepicker-cont").css("display","none");
+				if(globalUpdateIndex<obj.data.length && obj.data.length>=0){
+					obj.data[globalUpdateIndex].createdOn = valueInDate.getTime();
+					localStorage.setItem("data",JSON.stringify(obj));
+					$("#alert-messages").html("<span class='alert alert-success'>Saved Successfully!!</span>");
+					setTimeout(()=>{
+						$("#alert-messages").html("");	
+					},3000);
+					getDateDisplay();
+				}
+			}
+		}
+		function diffOfTwoDates(date1,date2){
+			var Difference_In_Time = date2.getTime() - date1.getTime(),
+			Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
+			return Difference_In_Days;
+		}
+		function updateDate(index){
+			globalUpdateIndex = index;
+			$("#datepicker-cont").css("display","block");
+		}
+		function getDateDisplay(){
+			var today = new Date();
+			let _html1 = "",
+			_html2 = "",
+			_html3 = "";
+			for(let i = 0;i<obj.data.length;i++){
+				var thisObj = obj.data[i],
+				thisDate = new Date(thisObj.createdOn),
+				dateResult =displayMyDateForm(thisDate);
+				let diff = parseInt(diffOfTwoDates(today, thisDate)),
+				onclick = "onclick = updateDate('"+i+"');",
+				date = new Date(),
+				month = date.getMonth()+1,
+				day = date.getDate(),
+				year = date.getFullYear(),
+				min = year + "-"+month+"-"+day;
+				if(diff>0){
+					var diffPositive = diff;
+					let sec1 =  "<span class='dateResults'>"+dateResult+"</span><br><span class='dateResultsDiff'>"+diffPositive+" days ago </span>",
+					sec2 = "<div class='img-stack'><div class='img'><img src='"+thisObj.image_url+"'></div><div class='img-stack-data'><span class='gameName'>"+thisObj.name+"</span><br><span class='regionName'>"+thisObj.region+"</span></span></div></div>",
+					sec3 = "<span onclick=viewPricing('"+i+"')><img src='img/Price.png' class='price_' alt='price'/><span class='viewPriceText'>View Pricing</span></span>",
+					sec4 = "<div class='file_data'><span><img src='img/file.png' class='file_' alt='file'/><span class='csv-text'>CSV</span></span><span><img src='img/statistics-report.png' class='statistics-report_' alt='statistics-report'/><span class='report-text'><span class='report-text'>Report</span></span></span><span class='calendar-parent'><img src='img/calendar.png' class='calendar' alt='calendar'/><span class='calendar-text'>Schedule Again</span><input type='date' min='"+min+"' onchange=getNewValue(this,'"+i+"'); class='date-cont'></span></span></div>";
+					_html1 = _html1 + "<div class='data-display'><div>"+sec1+"</div><div>"+sec2+"</div><div class='view-pricing-parent'>"+sec3+"</div><div>"+sec4+"</div></div>";
+				}
+				if(diff==0){
+					var diffPositive = diff;
+					let sec1 =  "<span class='dateResults'>"+dateResult+"</span><br><span class='dateResultsDiff'> Ongoing </span>",
+					sec2 = "<div class='img-stack'><div class='img'><img src='"+thisObj.image_url+"'></div><div class='img-stack-data'><span class='gameName'>"+thisObj.name+"</span><br><span class='regionName'>"+thisObj.region+"</span></span></div></div>",
+					sec3 = "<span onclick=viewPricing('"+i+"')><img src='img/Price.png' class='price_' alt='price'/><span class='viewPriceText'>View Pricing</span></span>",
+					sec4 = "<div class='file_data'><span><img src='img/file.png' class='file_' alt='file'/><span class='csv-text'>CSV</span></span><span><img src='img/statistics-report.png' class='statistics-report_' alt='statistics-report'/><span class='report-text'>Report</span></span><span class='calendar-parent'><img src='img/calendar.png' class='calendar' alt='calendar'/><span class='calendar-text'>Schedule Again</span><input type='date' min='"+min+"' onchange=getNewValue(this,'"+i+"'); class='date-cont'></span></span></div>";
+					_html2 = _html2 + "<div class='data-display'><div>"+sec1+"</div><div>"+sec2+"</div><div class='view-pricing-parent'>"+sec3+"</div><div>"+sec4+"</div></div>";
+				}
+				if(diff<0){
+					var diffPositive = diff*-1;
+					let sec1 =  "<span class='dateResults'>"+dateResult+"</span><br><span class='dateResultsDiff'>"+diffPositive+" days before </span>",
+					sec2 = "<div class='img-stack'><div class='img'><img src='"+thisObj.image_url+"'></div><div class='img-stack-data'><span class='gameName'>"+thisObj.name+"</span><br><span class='regionName'>"+thisObj.region+"</span></span></div></div>",
+					sec3 = "<span onclick=viewPricing('"+i+"')><img src='img/Price.png' class='price_' alt='price'/><span class='viewPriceText'>View Pricing</span></span>",
+					sec4 = "<div class='file_data'><span><img src='img/file.png' class='file_' alt='file'/><span class='csv-text'>CSV</span></span><span><img src='img/statistics-report.png' class='statistics-report_' alt='statistics-report'/><span class='report-text'>Report</span></span><span class='calendar-parent'><img src='img/calendar.png' class='calendar' alt='calendar'/><span class='calendar-text'>Schedule Again</span><input type='date' min='"+min+"' onchange=getNewValue(this,'"+i+"'); class='date-cont'></span></span></div>";
+					_html3 = _html3 + "<div class='data-display'><div>"+sec1+"</div><div>"+sec2+"</div><div class='view-pricing-parent'>"+sec3+"</div><div>"+sec4+"</div></div>";
+				}
+			}
+			$(".upcoming .data").html(_html1);
+			$(".live .data").html(_html2);
+			$(".past .data").html(_html3);
+		}
+		function getNewValue(thisV,index){
+			globalUpdateIndex = index;
+			saveEvent(thisV.value);
+		}
+		function getEventList(type){
+			if(type=="1"){
+				$(".upcoming").css('display','block');
+				$(".live").css('display','none');
+				$(".past").css('display','none');
+				$(".top-section.top-section-header div").removeClass("active");
+				$(".top-section.top-section-header div:nth-child(1)").addClass("active");
+			}
+			else if(type=="2"){
+				$(".upcoming").css('display','none');
+				$(".live").css('display','block');
+				$(".past").css('display','none');
+				$(".top-section.top-section-header div").removeClass("active");	
+				$(".top-section.top-section-header div:nth-child(2)").addClass("active");
+			}
+			else{
+				$(".upcoming").css('display','none');
+				$(".live").css('display','none');
+				$(".past").css('display','block');
+				$(".top-section.top-section-header div").removeClass("active");
+				$(".top-section.top-section-header div:nth-child(3)").addClass("active");
+			}
+		}
+		if(localStorage.getItem("data")==null){
+			var obj = {
+				"data": [{
+				"name": "Auto Chess",
+				"region": "US",
+				"createdOn": 1559807714999,
+				"price": "Price info of Test Whatsapp",
+				"csv": "Some CSV link for Whatsapp",
+				"report": "Some report link for Whatsapp",
+				"image_url":"img/1.png" 
+				},
+				{
+				"name": "PUBG MOBILE",
+				"region": "CA, FR",
+				"createdOn": 1559806715124,
+				"price": "Price info of Super Jewels Quest",
+				"csv": "Some CSV link for Super Jewels Quest",
+				"report": "Some report link for Super Jewels Ques",
+				"image_url":"img/5.png"
+				},
+				{
+				"name": "Flow Free",
+				"region": "FR",
+				"createdOn": 1559806711124,
+				"price": "Price info of Mole Slayer",
+				"csv": "Some CSV link for Mole Slayer",
+				"report": "Some report link for Mole Slayer",
+				"image_url":"img/2.png"
+				},
+				{
+				"name": "Garena Free Fire",
+				"region": "JP",
+				"createdOn": 1559806680124,
+				"price": "Price info of Mancala Mix",
+				"csv": "Some CSV link for Mancala Mix",
+				"report": "Some report link for Mancala Mix",
+				"image_url":"img/3.png"
+				}]
+			}
+			localStorage.setItem("data",JSON.stringify(obj));
+		}
+		else{
+			var obj = JSON.parse(localStorage.getItem("data"));
+		}
+	</script>
+</html>

@@ -1,0 +1,218 @@
+html{
+    font-size: 62.5%;
+}
+body {
+    color: #222020;
+    font-family: 'Open Sans';
+    font-size: 1.4rem;
+}
+header{
+	background: #1F2640;
+}
+header img{
+	width: 24rem;
+}
+.blue-manage-text{
+    font-size: 4rem;
+    font-weight: bold;
+    color: rgb(43, 65, 108);
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+.top-section.top-section-header{
+	display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:  flex;
+    justify-content: flex-start;
+    border-bottom: 0.1rem solid rgb(241, 241, 244);
+    margin-bottom: 3rem;
+}
+.top-section.top-section-header div{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    font-weight: 600;
+    color: rgb(111, 126, 155);
+    cursor: pointer;
+}
+.top-section.top-section-header .active{
+	color: rgb(154, 182, 70);
+    border-bottom: 0.4rem solid rgb(154, 182, 70);
+    padding-bottom: 2rem;
+}
+.table.past, .table.upcoming, .table.live{
+	border: 0.1rem solid rgb(241, 241, 244);
+    box-shadow: 0 0.4rem 0.8rem 0 rgba(214, 219, 225, 0.82);    
+	width: 100%;
+	float: left;
+}
+.table-header{
+	background: rgb(241, 241, 244);
+	color: rgb(111, 126, 155);
+	font-size: 1.5rem;
+	font-weight: 600;
+	width: 100%;
+	padding: 1.5rem;
+	float: left;
+}
+.table-header div:nth-child(1), .data .data-display div:nth-child(1){width: 20%;}
+.table-header div:nth-child(2), .data .data-display div:nth-child(2){width: 30%;}
+.table-header div:nth-child(3), .data .data-display div:nth-child(3){width: 20%;}
+.table-header div:nth-child(4), .data .data-display div:nth-child(4){width: 30%;}
+.table-header div, .data .data-display div{float: left;}
+.data, .data-display{
+	width: 100%;
+	float: left;
+}
+.data{padding: 1.5rem;}
+.data-display .img-stack{width: 100%!important;}
+.data-display .img-stack .img{width: 20%!important;}
+.data-display .img-stack .img img{width: 5rem;}
+.data-display .img-stack .img-stack-data{width: 80%!important;}
+.file_data{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:  flex;
+    width: 100%!important;
+    justify-content: space-between;
+}
+img.price_{width: 3rem;}
+img.file_{width: 2rem;}
+img.statistics-report_{width: 2.5rem;}
+.file_data span{display: block;}
+.data-display{
+    border-bottom: 0.1rem solid rgb(241, 241, 244);
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+.data .data-display:last-child{border: none;}
+.dateResultsDiff, .regionName{
+    color: rgb(133, 149, 173);
+    font-style: italic;
+}
+.gameName, .viewPriceText{color: rgb(103, 119, 150);}
+.dateResults{color:rgb(43, 65, 108);}
+.viewPriceText{padding-left: 1rem;}
+.csv-text{
+    position: relative;
+    left: 1rem;
+}
+.report-text{
+    position: relative;
+    left: 0.5rem;
+}
+.csv-text, .report-text{
+    display: inline-block!important;
+    color: rgb(103, 119, 150);
+}
+.view-pricing-parent span{cursor: pointer;}
+img.calendar{
+    width: 2.5rem;
+}
+.calendar-text{
+    display: inline-block!important;
+    position: relative;
+    left: 1rem;
+    color: rgb(103, 119, 150);
+}
+.calendar-parent{position: relative;}
+.date-cont{
+    position: absolute;
+    left: -2.7rem;
+    width: 5rem;
+    opacity: 0;
+}
+#myModal .modal-dialog .modal-content{
+    border-radius: 0!important;
+    box-shadow: none!important;
+    border: none!important;
+}
+#myModal .modal-dialog .modal-content .modal-footer{
+    text-align: center;
+    border: none;
+}
+#myModal .modal-dialog .modal-content .modal-footer button{
+    border-radius: 0;
+    border: 0.2rem solid #333;
+    font-weight: bold;
+    color: rgb(43, 65, 108);
+    font-size: 1.5rem;
+}
+#myModal .modal-dialog .modal-content .modal-body #main-heading{
+    display: flex;
+    position: relative;
+}
+#myModal .modal-dialog .modal-content .modal-body #main-heading #image-div .image-pic{
+    width: 12rem;
+    box-shadow: 0 0.4rem 0.8rem 0 rgba(214, 219, 225, 0.82);
+}
+#myModal .modal-dialog .modal-content .modal-body #main-heading #game-main-heading{
+    position: absolute;
+    left: 14rem;
+    bottom: 0;
+}
+#myModal .modal-dialog .modal-content .modal-body #main-heading #game-main-heading span{display: block;}
+#myModal .modal-dialog .modal-content .modal-body #main-heading #game-main-heading .game-heading{
+    font-weight: bold;
+    color: rgb(43, 65, 108);
+}
+#myModal .modal-dialog .modal-content .modal-body #main-heading #game-main-heading .country-heading{
+    color: rgb(133, 149, 173);
+}
+#myModal .modal-dialog .modal-content .modal-body .price-parent{
+    margin-top: 2rem;
+}
+#myModal .modal-dialog .modal-content .modal-body .price-parent .price-parent-text{
+    color: rgb(43, 65, 108);
+    font-weight: bold;
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+#myModal .modal-dialog{width: 40rem;}
+#myModal .modal-dialog .modal-content .modal-body .price-parent .price-ul{
+    padding: 0;
+    list-style: none;
+}
+#myModal .modal-dialog .modal-content .modal-body .price-parent .price-ul li{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+}
+#myModal .modal-dialog .modal-content .modal-body .price-parent .price-ul li .price-ul-week{
+    color: rgb(133, 149, 173);
+}
+#myModal .modal-dialog .modal-content .modal-body .price-parent .price-ul li .price-ul-prc{
+    font-weight: bold;
+    color: rgb(43, 65, 108);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .data-display .img-stack .img-stack-data{
+        padding-left: 0.6rem;
+    }
+    .data-display .img-stack .img img{width: 100%;}
+    .csv-text, .report-text, .calendar-text{left: 0;}
+}
+@media only screen and (max-width: 768px){
+    .data-display .img-stack .img img{width: 100%;}
+    .blue-manage-text{font-size: 2rem;}
+    .top-section.top-section-header div{
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-size: 1.2rem;
+    }
+    .table-header div{font-size: 1.2rem;}
+    .data-display .img-stack .img{
+        width: 100%!important;
+        padding: 0 0.5rem;
+    }
+    .view-pricing-parent{padding: 0 0.5rem;}
+    .viewPriceText{padding-left: 0;}
+    .file_data{flex-direction: column;}
+    .file_data span{padding-bottom: 0.6rem;}
+    #myModal .modal-dialog{width: auto;}
+}
